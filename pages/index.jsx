@@ -1,13 +1,12 @@
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import Head from "next/head";
-import { useRef, useState } from "react";
 import styles from "./index.module.css";
 import * as XLSX from 'xlsx';
 
-
 export default function Home() {
   const [dataXLXS, setDataXLXS] = useState(null);
-  const [html, setHtml] = useState(null);
+  const [htmlText, setHtmlText] = useState(null);
 
   const handleSubmit = (event) => {
   event.preventDefault();
@@ -30,14 +29,14 @@ export default function Home() {
 const analyzeData = async () => {
   try {
     const message =  refInput.current.value;
-    console.log(message);
     const res = await axios.post('/api/anaylize', {data: dataXLXS, message});
-    setHtml(await axios.post('/api/anaylize', {data: dataXLXS, message}));
+    console.log(res.data.text);
+    setHtmlText(res.data.text);
+    return res;
     } catch(err) {
       console.log(err)
     }
 
-  return res;
 };
   const refInput = useRef(null);
   
@@ -50,11 +49,14 @@ const analyzeData = async () => {
       <main className={styles.main}>
         <form onSubmit={handleSubmit}>
           <input type="file" name="file" />
+          <br/>
+          <input ref={refInput} type='text'/>
           <button type="submit">Upload</button>
         </form>
-        <input ref={refInput} type='text'/>
+        <br/>
         <button onClick={analyzeData}>analyzeData</button>
-        <div>{html}</div>
+        <br/>
+        <div dangerouslySetInnerHTML={{ __html: htmlText }}/>
       </main>
     </div>
   );
