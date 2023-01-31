@@ -22,14 +22,14 @@ export default function Home() {
     console.log(rows);
     setDataXLXS(rows);
   };
-  reader.readAsBinaryString(file);
+  reader.readAsBinaryString(file); 
 };
 
 
 const analyzeData = async () => {
   try {
     const message =  refInput.current.value;
-    const res = await axios.post('/api/anaylize', {data: dataXLXS, message});
+    const res = await axios.post('/api/analyze', {data: dataXLXS, message});
     console.log(res.data.text);
     setHtmlText(res.data.text);
     return res;

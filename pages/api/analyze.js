@@ -7,14 +7,13 @@ import { Configuration, OpenAIApi } from "openai";
 export default async function (req, res) {
 	console.log('start api');
 	try {
-		console.log(req.body);
 		const {data, message} = req.body;
-		console.log(message);
+		console.log(data);
 		const openai = new OpenAIApi(configuration);
 
 	  const response = await openai.createCompletion({
-	    'model':'text-davinci-002',
-	    'prompt': `${message} ${data ? data : ''}`,
+	    'model':'text-davinci-003',
+	    'prompt': `${message} ${data ? JSON.stringify(data) : ''}`, 
 	    'max_tokens': 100,
 	  });
 
