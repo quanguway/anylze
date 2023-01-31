@@ -59,7 +59,7 @@ const analyzeData = async () => {
         <br/>
         <div dangerouslySetInnerHTML={{ __html: htmlText }}/>
 
-        <Link href="/model/create-model">create/list model</Link>
+        <Link href="/model/chat">chat model</Link>
       </main>
     </div>
   );

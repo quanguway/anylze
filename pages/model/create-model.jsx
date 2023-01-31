@@ -12,8 +12,6 @@ export default function Analysit() {
       .then(response => {setFineTunes(response.data.data)});
   }, [])
 
-  console.log(fineTunes);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     let params = {
