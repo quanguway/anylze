@@ -11,7 +11,9 @@ export default function Analysit() {
       .get("https://api.openai.com/v1/fine-tunes", configAPI)
       .then(response => {setFineTunes(response.data.data)});
   }, [])
+
   console.log(fineTunes);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     let params = {
@@ -19,8 +21,6 @@ export default function Analysit() {
       'model' : event.target.model.value,
       'suffix' : event.target.name.value
     }
-
-   
 
     const respone = await axios.post('https://api.openai.com/v1/fine-tunes', params, configAPI);
     setFineTunes([...fineTunes, respone.data]);
@@ -34,7 +34,7 @@ export default function Analysit() {
       <main>
         <form onSubmit={handleSubmit}>
           <div class="form-group mt-4">
-            <label for="exampleInputEmail1">Fine-tunning name</label>
+            <label>Fine-tunning name</label>
             <input type="text" name="name" class="form-control" placeholder="Enter model name"/>
           </div>
           <div class="form-group mt-4">
@@ -49,13 +49,13 @@ export default function Analysit() {
           <button type="submit" class="btn btn-primary mt-4">Submit</button>
         </form>
         <h3 className="mt-4">List model</h3>
-        { fineTunes.map((value, index) => {
+        { fineTunes ? fineTunes.map((value, index) => {
           return (
             <div>
               <Link key={index} href={`/model/${value.id}`}>{value.id}</Link>
             </div>
           )
-        }) }
+        }) : (<></>) }
       </main>
     </div>
   );

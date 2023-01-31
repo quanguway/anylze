@@ -3,6 +3,7 @@ import axios from "axios";
 import Head from "next/head";
 import styles from "./index.module.css";
 import * as XLSX from 'xlsx';
+import Link from "next/link";
 
 export default function Home() {
   const [dataXLXS, setDataXLXS] = useState(null);
@@ -57,6 +58,8 @@ const analyzeData = async () => {
         <button onClick={analyzeData}>analyzeData</button>
         <br/>
         <div dangerouslySetInnerHTML={{ __html: htmlText }}/>
+
+        <Link href="/model/create-model">create/list model</Link>
       </main>
     </div>
   );

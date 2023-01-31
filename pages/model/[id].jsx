@@ -26,7 +26,7 @@ export default function StoreIntroduce({data}) {
     reader.readAsBinaryString(file);
     const params = {
       "model": "text-davinci-003",
-      "prompt": `render html table from ${JSON.stringify(dataSLXS)}`,
+      "prompt": `render html table with class=table from ${JSON.stringify(dataSLXS)}`,
       "max_tokens": 100,
       "temperature": 1
     }
@@ -41,7 +41,7 @@ export default function StoreIntroduce({data}) {
     event.preventDefault();
     const params2 = {
       "model": "text-davinci-003",
-      "prompt": `${event.target.message.value} json above i render all`,
+      "prompt": `${event.target.message.value} json ${JSON.stringify(dataSLXS)}`,
       "max_tokens": 100,
       "temperature": 1
     }

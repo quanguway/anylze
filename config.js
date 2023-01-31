@@ -1,5 +1,5 @@
 export let configAPI = {
   headers: {
-    Authorization: `Bearer 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`,
+    Authorization: `Bearer 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`,
   }
 }
