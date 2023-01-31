@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { configAPI } from '../../config';
 import * as XLSX from 'xlsx';
 
-export default function StoreIntroduce({data}) {
+export default function StoreIntroduce({}) {
 
   const [dataSLXS, setDataXLXS] = useState(null);
   const [HTMLTextTable, setHTMLTextTable] = useState(null);
@@ -96,12 +96,12 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({params}) => {
-	console.log(params.id);
-  const response = await fetch(`https://api.openai.com/v1/fine-tunes/${params.id}`, configAPI)
+	// console.log(params.id);
+  // const response = await fetch(`https://api.openai.com/v1/fine-tunes/${params.id}`, configAPI)
 
   return {
     props: {
-      data: response.data | null
+      // data: response.data | null
     }
   };
 };
