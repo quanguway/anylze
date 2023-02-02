@@ -11,7 +11,7 @@ export default function Home() {
     router.push({ href: '/', query: { apiKey: e.target.apiKey.value  } });
   }
 
-  return router.query.hasOwnProperty('apiKey') ? (
+  return (
     <div>
       <Head>
         <title>ChatGPT Explore - Uway Technology</title>
@@ -21,14 +21,5 @@ export default function Home() {
         <Chat />
       </div>
     </div>
-  ) : (
-    <form onSubmit={handleSubmit} className="px-40 mt-20">
-      <h1 className="font-bold text-2xl">Enter Key Api First</h1>
-      <div className="my-3">
-        <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">API token</label>
-        <input name="apiKey" type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="api token" required/>
-      </div>
-      <input type='submit' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"/>
-    </form>
   );
 }

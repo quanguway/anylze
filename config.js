@@ -1,6 +1,6 @@
 export const configAPI = {
   headers: {
-    Authorization: `Bearer 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`,
+    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
   }
 }
 
