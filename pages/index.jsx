@@ -1,66 +1,19 @@
-import React, { useRef, useState } from "react";
-import axios from "axios";
 import Head from "next/head";
-import styles from "./index.module.css";
-import * as XLSX from 'xlsx';
-import Link from "next/link";
+import { Text } from '@vercel/examples-ui';
+import { Chat } from '../components/Chat';
 
 export default function Home() {
-  const [dataXLXS, setDataXLXS] = useState(null);
-  const [htmlText, setHtmlText] = useState(null);
 
-  const handleSubmit = (event) => {
-  event.preventDefault();
-
-  const file = event.target.file.files[0];
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const data = e.target.result;
-    const workbook = XLSX.read(data, { type: 'binary' });
-    const firstSheet = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[firstSheet];
-    const rows = XLSX.utils.sheet_to_json(worksheet);
-    console.log(rows);
-    setDataXLXS(rows);
-  };
-  reader.readAsBinaryString(file); 
-};
-
-
-const analyzeData = async () => {
-  try {
-    const message =  refInput.current.value;
-    const res = await axios.post('/api/analyze', {data: dataXLXS, message});
-    console.log(res.data.text);
-    setHtmlText(res.data.text);
-    return res;
-    } catch(err) {
-      console.log(err)
-    }
-
-};
-  const refInput = useRef(null);
-  
   return (
     <div>
       <Head>
-        <title>Analysit Bussiness</title>
+        <title>ChatGPT Explore - Uway Technology</title>
       </Head>
+      <h1 className="text-3xl font-bold text-center my-10">ChatGPT</h1>
+      <div className="w-full ">
+        <Chat />
+      </div>
 
-      <main className={styles.main}>
-        <form onSubmit={handleSubmit}>
-          <input type="file" name="file" />
-          <br/>
-          <input ref={refInput} type='text'/>
-          <button type="submit">Upload</button>
-        </form>
-        <br/>
-        <button onClick={analyzeData}>analyzeData</button>
-        <br/>
-        <div dangerouslySetInnerHTML={{ __html: htmlText }}/>
-
-        <Link href="/model/chat">chat model</Link>
-      </main>
     </div>
   );
 }

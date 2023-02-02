@@ -1,48 +1,41 @@
 import axios from 'axios';
 import Head from 'next/head';
 import { useState } from 'react';
-import { configAPI } from '../../config';
+import { apiURL, configAPI } from '../../config';
 import * as XLSX from 'xlsx';
 
 export default function StoreIntroduce({}) {
 
-  const [dataSLXS, setDataXLXS] = useState(null);
   const [HTMLTextTable, setHTMLTextTable] = useState(null);
   const [HTMLTextAns, setHTMLTextAns] = useState(null);
 
-	const handleSubmitFile = (event) => {
+	const handleSubmitFile = async (event) => {
     event.preventDefault();
 
-    const file = event.target.file.files[0];
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, { type: 'binary' });
-      const firstSheet = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheet];
-      const rows = XLSX.utils.sheet_to_json(worksheet);
-      setDataXLXS(rows);
-    };
-    reader.readAsBinaryString(file);
     const params = {
-      "model": "text-davinci-003",
-      "prompt": `render html table with class=table from ${JSON.stringify(dataSLXS)}`,
-      "max_tokens": 100,
-      "temperature": 1
+      file: event.target.file.files[0]
     }
-    axios.post('https://api.openai.com/v1/completions', params, configAPI).then((res) => {
-      console.log(res.data.choices[0])
-      setHTMLTextTable(res.data.choices[0].text);
-    })
+
+    const fine_tune = await axios.post(`${apiURL}/  fine-tune/create`, params, configAPI);
+    // const params = {
+    //   "model": "text-davinci-003",
+    //   "prompt": `render html table with class=table from ${JSON.stringify(dataSLXS)}`,
+    //   "max_tokens": 100,
+    //   "temperature": 1
+    // }
+    // axios.post('https://api.openai.com/v1/completions', params, configAPI).then((res) => {
+    //   console.log(res.data.choices[0])
+    //   setHTMLTextTable(res.data.choices[0].text);
+    // })
     
   }
 
   const handleSubmitChat =(event) => {
     event.preventDefault();
     const params2 = {
-      "model": "text-davinci-003",
-      "prompt": `${event.target.message.value} ${JSON.stringify(dataSLXS)}`,
-      "max_tokens": 100,
+      "model": "curie:ft-personal-2023-01-31-07-50-48",
+      "prompt": `${event.target.message.value}`,
+      "max_tokens": 260,
       "temperature": 1
     }
     axios.post('https://api.openai.com/v1/completions', params2, configAPI).then((res) => {
@@ -59,7 +52,7 @@ export default function StoreIntroduce({}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <form onSubmit={handleSubmitFile}>
+        {/*<form onSubmit={handleSubmitFile}>
           <div className="form-group">
             <label>Choose execel file to analyze</label>
             <input className="form-control mt-2" type="file" name="file"/>
@@ -67,9 +60,9 @@ export default function StoreIntroduce({}) {
           <input className="btn btn-primary mt-2" type="submit"/>
         </form>
 
-        <div className='mt-1' dangerouslySetInnerHTML={{ __html: HTMLTextTable }}/>
+        <div className='mt-1' dangerouslySetInnerHTML={{ __html: HTMLTextTable }}/>*/}
 
-        {HTMLTextTable ? (
+      
           <>
             <form onSubmit={handleSubmitChat} className='mt-3'>
               <div className="form-group">
@@ -80,7 +73,7 @@ export default function StoreIntroduce({}) {
             </form>
             <div className='mt-1' dangerouslySetInnerHTML={{ __html: HTMLTextAns}}/>
           </>
-          ) : (<></>)}
+
         
       </main>
     </>);
