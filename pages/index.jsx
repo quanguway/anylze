@@ -16,10 +16,10 @@ export default function Home() {
       <Head>
         <title>ChatGPT Explore - Uway Technology</title>
       </Head>
-      <h1 className="text-3xl font-bold text-center my-10">ChatGPT</h1>
-      <div className="w-full ">
-        <Chat />
-      </div>
+        <h1 className="text-3xl font-bold text-center my-10">ChatGPT</h1>
+        <div className="w-full ">
+          <Chat />
+        </div>
     </div>
   );
 }

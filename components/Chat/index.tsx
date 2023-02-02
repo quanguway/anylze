@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { type Message, ChatLine, LoadingChatLine } from '../ChatLine'
 import { useCookies } from 'react-cookie'
 import { Button } from '../Button'
@@ -48,11 +48,13 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
 )
 
 export function Chat() {
+
 	const router = useRouter();
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [cookie, setCookie] = useCookies([COOKIE_NAME])
+  const bottomRef = useRef(null);
 
   useEffect(() => {
     if (!cookie[COOKIE_NAME]) {
@@ -61,6 +63,10 @@ export function Chat() {
       setCookie(COOKIE_NAME, randomId)
     }
   }, [cookie, setCookie])
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+  }, [messages]);
 
   // send message to API /api/chat endpoint
   const sendMessage = async (message: string) => {
@@ -114,6 +120,7 @@ export function Chat() {
         setInput={setInput}
         sendMessage={sendMessage}
       />
+      <div ref={bottomRef} />
     </div>
   )
 }
