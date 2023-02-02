@@ -81,7 +81,7 @@ export function Chat() {
 		  "max_tokens": 300,
 		  "temperature": 1
 		    },  {headers: {
-		        Authorization: 'Bearer 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',
+		        Authorization: 'Bearer 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',
 		      }})
     console.log(response);
     const data = response.data.choices[0];
