@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie'
 import { Button } from '../Button'
 import axios from 'axios'
 import {configAPI} from '../../config.js'
+import { Router, useRouter } from 'next/router'
 
 const COOKIE_NAME = 'nextjs-example-ai-chat-gpt3'
 
@@ -47,6 +48,7 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
 )
 
 export function Chat() {
+	const router = useRouter();
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -70,12 +72,18 @@ export function Chat() {
     setMessages(newMessages)
     const last10messages = newMessages.slice(-10)
 
+    const {apiKey} = router.query;
+    console.log(apiKey)
+
     const response = await axios.post('https://api.openai.com/v1/completions', {
     	"model": "text-davinci-003",
 		  "prompt": `${message}`,
-		  "max_tokens": 100,
-		  "temperature": 0
-		    }, configAPI)
+		  "max_tokens": 200,
+		  "temperature": 1
+		    }, 
+		  {headers: {
+  		    Authorization: `Bearer ${apiKey}`,
+  		 }})
     console.log(response);
     const data = response.data.choices[0];
 
