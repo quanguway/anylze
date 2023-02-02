@@ -78,7 +78,7 @@ export function Chat() {
     const response = await axios.post('https://api.openai.com/v1/completions', {
     	"model": "text-davinci-003",
 		  "prompt": `${message}`,
-		  "max_tokens": 300,
+		  "max_tokens": 1000,
 		  "temperature": 1
 		    },  {headers: {
 		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
@@ -97,7 +97,7 @@ export function Chat() {
   }
 
   return (
-    <div className="sm:px-5 md:px-60">
+    <div className="px-7 md:px-60">
       {messages.map(({ message, who }, index) => (
         <ChatLine key={index} who={who} message={message} />
       ))}
