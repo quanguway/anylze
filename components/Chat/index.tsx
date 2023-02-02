@@ -81,7 +81,7 @@ export function Chat() {
 		  "max_tokens": 300,
 		  "temperature": 1
 		    },  {headers: {
-		        Authorization: 'Bearer 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',
+		        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
 		      }})
     console.log(response);
     const data = response.data.choices[0];
