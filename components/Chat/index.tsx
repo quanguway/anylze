@@ -80,7 +80,9 @@ export function Chat() {
 		  "prompt": `${message}`,
 		  "max_tokens": 300,
 		  "temperature": 1
-		    }, configAPI)
+		    },  {headers: {
+		        Authorization: 'Bearer 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',
+		      }})
     console.log(response);
     const data = response.data.choices[0];
 
