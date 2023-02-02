@@ -73,7 +73,7 @@ export function Chat() {
     const last10messages = newMessages.slice(-10)
 
     const {apiKey} = router.query;
-    console.log(apiKey)
+    console.log(process.env.NEXT_OPENAI_API_KEY)
 
     const response = await axios.post('https://api.openai.com/v1/completions', {
     	"model": "text-davinci-003",
@@ -81,7 +81,7 @@ export function Chat() {
 		  "max_tokens": 300,
 		  "temperature": 1
 		    },  {headers: {
-		        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
 		      }})
     console.log(response);
     const data = response.data.choices[0];
