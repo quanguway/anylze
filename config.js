@@ -1,6 +1,6 @@
 export const configAPI = {
   headers: {
-    Authorization: `Bearer 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`,
+    Authorization: `Bearer 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`,
   }
 }
 
