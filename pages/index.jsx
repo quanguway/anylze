@@ -8,10 +8,10 @@ export default function Home() {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    router.push({ href: '/', query: { keyApi: e.target.apiKey.value  } });
+    router.push({ href: '/', query: { apiKey: e.target.apiKey.value  } });
   }
 
-  return router.query.hasOwnProperty('keyApi') ? (
+  return router.query.hasOwnProperty('apiKey') ? (
     <div>
       <Head>
         <title>ChatGPT Explore - Uway Technology</title>
