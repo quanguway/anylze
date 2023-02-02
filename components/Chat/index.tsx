@@ -97,7 +97,7 @@ export function Chat() {
   }
 
   return (
-    <div className="px-60">
+    <div className="sm:px-5 md:px-60">
       {messages.map(({ message, who }, index) => (
         <ChatLine key={index} who={who} message={message} />
       ))}
