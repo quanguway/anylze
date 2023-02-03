@@ -19,7 +19,6 @@ export default function Home({ ip, ipTest }) {
 }
 
 export async function getServerSideProps({ req }) {
-  console.log(req.headers);
   const ipTest = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
   return {

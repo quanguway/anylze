@@ -15,8 +15,7 @@ const COOKIE_NAME = 'nextjs-example-ai-chat-gpt3'
 // default first message to display in UI (not necessary to define the prompt)
 export const initialMessages: Message[] = [
   {
-    who: 'bot',
-    message: 'Hi! I’m A friendly AI assistant. Ask me anything!',
+    
   },
 ]
 
@@ -39,7 +38,6 @@ const InputMessage = ({ input, setInput, sendMessage, isListening, transcript }:
       }}
       onChange={(e) => {
         setInput(e.target.value);
-        console.log(e.target.value)
       }
       }
     />
@@ -58,6 +56,7 @@ const InputMessage = ({ input, setInput, sendMessage, isListening, transcript }:
 
 export function Chat() {
 
+	const [lang, setLang] = useState('vi-VN')
   const {
     transcript,
     listening,
@@ -97,7 +96,6 @@ export function Chat() {
      if(message.toLowerCase() == 'hi') {
 	    	message = 'hello';
 	    }
-	    console.log(message)
 
     const response = await axios.post('https://api.openai.com/v1/completions', {
     	"model": "text-davinci-003",
@@ -125,8 +123,14 @@ export function Chat() {
   const handleStopLitening = () => {
   	SpeechRecognition.stopListening();
   	if(transcript.length !== 0) {
-	  	sendMessage(transcript.length !== 0 ? transcript : '')
+	  	sendMessage(transcript)
 	    setInput('')
+  	}
+  }
+
+  const handleChangeLang = (event ) => {
+  	if(event.target.checked === true) {
+	    setLang(event.target.value);
   	}
   }
 
@@ -152,14 +156,36 @@ export function Chat() {
           transcript={transcript}
         />
         {listening ? 
-          <div className='hover:cursor-pointer mt-6' onClick={handleStopLitening}>
+          <div className='hover:cursor-pointer mt-6 flex' onClick={handleStopLitening}>
             <MicOnIcon /> 
+            <span className='whitespace-nowrap ml-1'>Talk and turn off the micro to chat</span>
           </div> :
-          !input ? <div className='hover:cursor-pointer mt-6' onClick={SpeechRecognition.startListening}>
+          !input ? <div className='hover:cursor-pointer mt-6' onClick={() => SpeechRecognition.startListening({ language: lang })}>
             <MicOffIcon />
           </div> : ''
-
         }
+      </div>
+      {listening ? <div className={`modal fade fixed top-0 left-0 w-full h-full outline-none overflow-x-hidden overflow-y-auto`}>
+      	<div className="modal-dialog relative w-auto pointer-events-none">
+	    		<div className="modal-content h-60 border-none shadow-lg relative flex flex-col w-full justify-center items-center pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+		      	<div className='hover:cursor-pointer animate-border border p-5 border-red-200 rounded-full' onClick={handleStopLitening}>
+			      	<MicOnIcon width={50} height={50} fill="red"/>
+		      	</div>
+		      	<h3 className='text-2xl font-bold mt-4'>Talk and turn off the micro to chat</h3>
+		      </div>
+	      </div>
+      </div> : ''}
+      <p className='mt-4'>Trải nghiệm tốt hơn khi chọn ngôn ngữ với chức năng chat voice</p>
+      <div className='flex mt-6'>
+
+	      <div className="flex items-center mr-5">
+			    <input checked={lang === 'vi-VN'} onChange={handleChangeLang} type="radio" value="vi-VN" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Việt Nam</label>
+				</div>
+				<div className="flex items-center">
+			    <input type="radio" onChange={handleChangeLang}  value="en-US" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">United State</label>
+				</div>
       </div>
       <div className='h-5' ref={bottomRef} />
     </div>
