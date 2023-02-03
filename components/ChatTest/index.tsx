@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
-import { type Message, ChatLine, LoadingChatLine } from '../ChatLine'
+import { Message, ChatLine, LoadingChatLine } from '../ChatLine'
 import { useCookies } from 'react-cookie'
 import { Button } from '../Button'
 import axios from 'axios'
 import {configAPI} from '../../config.js'
 import { Router, useRouter } from 'next/router'
-const fs  = require('fs');
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import MicOnIcon from '../../assets/svg/micOn'
+import MicOffIcon from '../../assets/svg/micOff'
+
 
 const COOKIE_NAME = 'nextjs-example-ai-chat-gpt3'
 
@@ -17,14 +20,17 @@ export const initialMessages: Message[] = [
   },
 ]
 
-const InputMessage = ({ input, setInput, sendMessage }: any) => (
-  <div className="mt-6 flex clear-both">
+const InputMessage = ({ input, setInput, sendMessage, isListening, transcript }: any) => {
+  const textInput = input ;
+  return (
+    <div className="mt-6 flex clear-both w-full">
     <input
+    	disabled = {isListening}
       type="text"
       aria-label="chat input"
       required
       className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 sm:text-sm"
-      value={input}
+      value={textInput}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           sendMessage(input)
@@ -32,12 +38,14 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
         }
       }}
       onChange={(e) => {
-        setInput(e.target.value)
-      }}
+        setInput(e.target.value);
+        console.log(e.target.value)
+      }
+      }
     />
     <Button
       type="submit"
-      className="ml-4 flex-none"
+      className="mx-4 flex-none"
       onClick={() => {
         sendMessage(input)
         setInput('')
@@ -46,11 +54,18 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
       Say
     </Button>
   </div>
-)
+)}
 
 export function Chat() {
 
-  const router = useRouter();
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
+
+	const router = useRouter();
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -79,34 +94,40 @@ export function Chat() {
     setMessages(newMessages)
     const last10messages = newMessages.slice(-10)
 
-    message.replace('hi', 'hello')
+     if(message.toLowerCase() == 'hi') {
+	    	message = 'hello';
+	    }
+	    console.log(message)
 
-    // const response = await axios.post('https://api.openai.com/v1/completions', {
-    //   "model": "text-davinci-003",
-    //   "prompt": `${message}`,
-    //   "max_tokens": 4000,
-    //   "temperature": 0.7
-    //     },  {headers: {
-    //         Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
-    //       }})
-    // const data = response.data.choices[0];
-
-    // // strip out white spaces from the bot message
-    // const botNewMessage = data.text.trim()
-    const botNewMessage = 'haha';
-
-    const dataJson = {
-      'ip': '123.123.123.456',
-      'message': botNewMessage
-    }
-
+    const response = await axios.post('https://api.openai.com/v1/completions', {
+    	"model": "text-davinci-003",
+		  "prompt": `${message}`,
+		  "max_tokens": 1,
+		  "temperature": 0.7
+		    },  {headers: {
+		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
+		      }})
+    const data = response.data.choices[0];
     
-
+    // // strip out white spaces from the bot message
+    const botNewMessage = data.text.trim();
+    const dataMessage = {
+    	message: botNewMessage
+    }
+    axios.post('/api/write-file',dataMessage);
     setMessages([
       ...newMessages,
       { message: botNewMessage, who: 'bot' } as Message,
     ])
     setLoading(false)
+  }
+
+  const handleStopLitening = () => {
+  	SpeechRecognition.stopListening();
+  	if(transcript.length !== 0) {
+	  	sendMessage(transcript.length !== 0 ? transcript : '')
+	    setInput('')
+  	}
   }
 
   return (
@@ -122,11 +143,24 @@ export function Chat() {
           Type a message to start the conversation
         </span>
       )}
-      <InputMessage
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-      />
+      <div className='flex items-center w-full'>
+        <InputMessage
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+          isListening={listening}
+          transcript={transcript}
+        />
+        {listening ? 
+          <div className='hover:cursor-pointer mt-6' onClick={handleStopLitening}>
+            <MicOnIcon /> 
+          </div> :
+          !input ? <div className='hover:cursor-pointer mt-6' onClick={SpeechRecognition.startListening}>
+            <MicOffIcon />
+          </div> : ''
+
+        }
+      </div>
       <div className='h-5' ref={bottomRef} />
     </div>
   )

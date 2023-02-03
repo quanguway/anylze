@@ -1,11 +1,10 @@
 import Head from "next/head";
 import { Text } from '@vercel/examples-ui';
-import { Chat } from '../components/Chat';
+import { Chat } from '../components/ChatTest';
 import { useRouter } from "next/router";
 
-export default function Home({ ip }) {
+export default function Home({ ip, ipTest }) {
   const router = useRouter();
-  console.log(ip)
   return (
     <div>
       <Head>
@@ -21,11 +20,12 @@ export default function Home({ ip }) {
 
 export async function getServerSideProps({ req }) {
   console.log(req.headers);
+  const ipTest = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
-  console.log('ip: ' + ip)
   return {
     props: {
       ip,
+      ipTest
     },
   };
 }
