@@ -84,8 +84,8 @@ export function Chat() {
     const response = await axios.post('https://api.openai.com/v1/completions', {
     	"model": "text-davinci-003",
 		  "prompt": `${message}`,
-		  "max_tokens": 1000,
-		  "temperature": 1
+		  "max_tokens": 4000,
+		  "temperature": 0.7
 		    },  {headers: {
 		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
 		      }})
