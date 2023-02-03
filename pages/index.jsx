@@ -3,14 +3,9 @@ import { Text } from '@vercel/examples-ui';
 import { Chat } from '../components/Chat';
 import { useRouter } from "next/router";
 
-export default function Home() {
+export default function Home({ ip }) {
   const router = useRouter();
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    router.push({ href: '/', query: { apiKey: e.target.apiKey.value  } });
-  }
-
+  console.log(ip)
   return (
     <div>
       <Head>
@@ -22,4 +17,15 @@ export default function Home() {
         </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  console.log(req.headers);
+  const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
+  console.log('ip: ' + ip)
+  return {
+    props: {
+      ip,
+    },
+  };
 }

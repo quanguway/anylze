@@ -80,22 +80,19 @@ export function Chat() {
 
     message.replace('hi', 'hello')
 
-    const {apiKey} = router.query;
-    console.log(process.env.NEXT_OPENAI_API_KEY)
-    const response = await axios.post('https://api.openai.com/v1/completions', {
-      "model": "text-davinci-003",
-      "prompt": `${message}`,
-      "max_tokens": 4000,
-      "temperature": 0.7
-        },  {headers: {
-            Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
-          }})
-    console.log(response);
-    const data = response.data.choices[0];
+    // const response = await axios.post('https://api.openai.com/v1/completions', {
+    //   "model": "text-davinci-003",
+    //   "prompt": `${message}`,
+    //   "max_tokens": 4000,
+    //   "temperature": 0.7
+    //     },  {headers: {
+    //         Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
+    //       }})
+    // const data = response.data.choices[0];
 
     // // strip out white spaces from the bot message
-    const botNewMessage = data.text.trim()
-
+    // const botNewMessage = data.text.trim()
+    const botNewMessage = 'haha';
     setMessages([
       ...newMessages,
       { message: botNewMessage, who: 'bot' } as Message,
@@ -121,7 +118,7 @@ export function Chat() {
         setInput={setInput}
         sendMessage={sendMessage}
       />
-      <div ref={bottomRef} />
+      <div className='h-5' ref={bottomRef} />
     </div>
   )
 }
