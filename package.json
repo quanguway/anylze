@@ -7,11 +7,17 @@
     "build": "next build",
     "start": "next start"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "dependencies": {
     "@vercel/examples-ui": "^1.0.4",
     "axios": "^1.2.6",
     "bootstrap": "^5.2.3",
     "clsx": "^1.2.1",
+    "fs": "^0.0.1-security",
     "multer": "^1.4.5-lts.1",
     "next": "^13.1.1",
     "openai": "^3.1.0",
