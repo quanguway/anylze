@@ -49,7 +49,7 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
 
 export function Chat() {
 
-	const router = useRouter();
+  const router = useRouter();
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -83,13 +83,13 @@ export function Chat() {
     const {apiKey} = router.query;
     console.log(process.env.NEXT_OPENAI_API_KEY)
     const response = await axios.post('https://api.openai.com/v1/completions', {
-    	"model": "text-davinci-003",
-		  "prompt": `${message}`,
-		  "max_tokens": 4000,
-		  "temperature": 0.7
-		    },  {headers: {
-		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
-		      }})
+      "model": "text-davinci-003",
+      "prompt": `${message}`,
+      "max_tokens": 4000,
+      "temperature": 0.7
+        },  {headers: {
+            Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
+          }})
     console.log(response);
     const data = response.data.choices[0];
 

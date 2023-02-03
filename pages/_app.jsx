@@ -1,5 +1,6 @@
 // import "bootstrap/dist/css/bootstrap.min.css";
 import '../styles/globals.css';
+import regeneratorRuntime from "regenerator-runtime";
 // import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
