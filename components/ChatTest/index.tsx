@@ -177,6 +177,7 @@ export function Chat() {
 	      </div>
       </div> : ''}
       	<p>Trải nghiệm tốt hơn khi chọn ngôn ngữ với chức năng chat voice</p>
+      	<p>Bấm vào biểu tượng voice để nói và bấm lần nữa khi xong</p>
       <div className='flex mt-6'>
 	      <div className="flex items-center mr-5">
 			    <input checked={lang === 'vi-VN'} onChange={handleChangeLang} type="radio" value="vi-VN" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
