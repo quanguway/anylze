@@ -15,7 +15,8 @@ const COOKIE_NAME = 'nextjs-example-ai-chat-gpt3'
 // default first message to display in UI (not necessary to define the prompt)
 export const initialMessages: Message[] = [
   {
-    
+    who: 'bot',
+    message: 'Hi! I’m A friendly AI assistant. Ask me anything!',
   },
 ]
 
@@ -175,9 +176,8 @@ export function Chat() {
 		      </div>
 	      </div>
       </div> : ''}
-      <p className='mt-4'>Trải nghiệm tốt hơn khi chọn ngôn ngữ với chức năng chat voice</p>
+      	<p>Trải nghiệm tốt hơn khi chọn ngôn ngữ với chức năng chat voice</p>
       <div className='flex mt-6'>
-
 	      <div className="flex items-center mr-5">
 			    <input checked={lang === 'vi-VN'} onChange={handleChangeLang} type="radio" value="vi-VN" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
 			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Việt Nam</label>
