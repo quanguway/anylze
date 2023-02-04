@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 
 export default function Home({ localIp }) {
+  console.log(localIp);
   const router = useRouter();
   return (
     <div>
@@ -25,7 +26,7 @@ export async function getServerSideProps({ req }) {
   var os = require('os');
   var ifaces = os.networkInterfaces();
   var localIp = "";
-
+  console.log('get ???')
   Object.keys(ifaces).forEach(function (ifname) {
     ifaces[ifname].forEach(function (iface) {
       if ('IPv4' !== iface.family || iface.internal !== false) {
@@ -35,7 +36,6 @@ export async function getServerSideProps({ req }) {
       localIp = iface.address;
     });
   });
-  console.log(localIp)
 
   return {
     props: {
