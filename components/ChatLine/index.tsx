@@ -1,5 +1,8 @@
 import clsx from 'clsx'
 import Balancer from 'react-wrap-balancer'
+import VolumeIcon from '../../assets/svg/volume'
+import LanguageDetect from 'languagedetect';
+import {VoiceLangVN, VoiceLangOrther} from '../../utils/convertTextToSpeech'
 
 // wrap Balancer to remove type errors :( - @TODO - fix this ugly hack
 const BalancerWrapper = (props: any) => <Balancer {...props} />
@@ -46,6 +49,27 @@ export function ChatLine({ who = 'bot', message }: Message) {
   }
   const formatteMessage = convertNewLines(message)
 
+  const handleTextToVoice = (text, lang) => {
+    switch (lang) {
+      case 'vi':
+        VoiceLangVN(text)
+        return;
+      case 'en':
+        VoiceLangOrther(text,'en-US')
+        return;
+      default:
+        VoiceLangOrther(text,'en-US')
+        return;
+    }
+  }
+
+  const handleVoice = () => {
+    const lngDetector = new LanguageDetect();
+    lngDetector.setLanguageType('iso2')
+    const detectLang = lngDetector.detect(message ,1)[0][0];
+    handleTextToVoice(message, detectLang);
+  }
+
   return (
     <div
       className={
@@ -53,6 +77,7 @@ export function ChatLine({ who = 'bot', message }: Message) {
       }
     >
       <BalancerWrapper>
+      <div className={`flex items-end ${who === 'bot' ? 'flex-row' : 'flex-row-reverse'}`}>
         <div className="float-right mb-5 rounded-lg bg-white px-4 py-5 shadow-lg ring-1 ring-zinc-100 sm:px-6">
           <div className="flex space-x-3">
             <div className="flex-1 gap-4">
@@ -72,6 +97,10 @@ export function ChatLine({ who = 'bot', message }: Message) {
             </div>
           </div>
         </div>
+        <div className='mb-5 hover:cursor-pointer mx-4' onClick={handleVoice}>
+          <VolumeIcon width={30} height={30}/>
+        </div>
+      </div>
       </BalancerWrapper>
     </div>
   )

@@ -101,26 +101,27 @@ export function ChatTest({localIP} :Props) {
 	    	message = 'hello';
 	    }
 
-    const response = await axios.post('https://api.openai.com/v1/completions', {
-    	"model": "text-davinci-003",
-		  "prompt": `${message}`,
-		  "max_tokens": 4000,
-		  "temperature": 0.7
-		    },  {headers: {
-		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
-		      }})
-    const data = response.data.choices[0];
+    // const response = await axios.post('https://api.openai.com/v1/completions', {
+    // 	"model": "text-davinci-003",
+		//   "prompt": `${message}`,
+		//   "max_tokens": 4000,
+		//   "temperature": 0.7
+		//     },  {headers: {
+		//         Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
+		//       }})
+    // const data = response.data.choices[0];
     
-    // // strip out white spaces from the bot message
-    const botNewMessage = data.text.trim();
+    // // // strip out white spaces from the bot message
+    // const botNewMessage = data.text.trim();
+    const botNewMessage = 'xin chào bạn';
     
-    const messageLog = {
-      ip: localIP,
-    	message_send: message,
-      message_receive: botNewMessage
-    }
+    // const messageLog = {
+    //   ip: localIP,
+    // 	message_send: message,
+    //   message_receive: botNewMessage
+    // }
 
-    axios.post('/api/write-file',messageLog);
+    // axios.post('/api/write-file',messageLog);
     setMessages([
       ...newMessages,
       { message: botNewMessage, who: 'bot' } as Message,

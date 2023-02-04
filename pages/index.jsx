@@ -1,7 +1,7 @@
 import Head from "next/head";
-import { Text } from '@vercel/examples-ui';
 import { ChatTest } from '../components/ChatTest';
 import { useRouter } from "next/router";
+
 
 export default function Home({ localIp }) {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function Home({ localIp }) {
           <ChatTest localIP={localIp}/>
         </div>
     </div>
-  );
+  ); 
 }
 
 export async function getServerSideProps({ req }) {
@@ -35,6 +35,7 @@ export async function getServerSideProps({ req }) {
       localIp = iface.address;
     });
   });
+  console.log(localIp)
 
   return {
     props: {

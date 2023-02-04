@@ -7,17 +7,14 @@
     "build": "next build",
     "start": "next start"
   },
-  "browser": {
-    "fs": false,
-    "path": false,
-    "os": false
-  },
   "dependencies": {
     "@vercel/examples-ui": "^1.0.4",
     "axios": "^1.2.6",
     "bootstrap": "^5.2.3",
     "clsx": "^1.2.1",
     "fs": "^0.0.1-security",
+    "howler": "^2.2.3",
+    "languagedetect": "^2.0.0",
     "multer": "^1.4.5-lts.1",
     "next": "^13.1.1",
     "openai": "^3.1.0",
@@ -25,10 +22,13 @@
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
+    "react-say": "^2.1.0",
     "react-speech-recognition": "^3.10.0",
     "react-wrap-balancer": "^0.4.0",
     "recordrtc": "^5.6.2",
     "regenerator-runtime": "^0.13.11",
+    "talkify-tts": "^3.9.3",
+    "util": "^0.12.5",
     "xlsx": "^0.18.5"
   },
   "engines": {
