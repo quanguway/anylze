@@ -55,8 +55,11 @@ const InputMessage = ({ input, setInput, sendMessage, isListening, transcript }:
   </div>
 )}
 
-export function Chat() {
+interface Props {
+  localIP:string;
+}
 
+export function ChatTest({localIP} :Props) {
 	const [lang, setLang] = useState('vi-VN')
   const {
     transcript,
@@ -110,10 +113,14 @@ export function Chat() {
     
     // // strip out white spaces from the bot message
     const botNewMessage = data.text.trim();
-    const dataMessage = {
-    	message: botNewMessage
+    
+    const messageLog = {
+      ip: localIP,
+    	message_send: message,
+      message_receive: botNewMessage
     }
-    axios.post('/api/write-file',dataMessage);
+
+    axios.post('/api/write-file',messageLog);
     setMessages([
       ...newMessages,
       { message: botNewMessage, who: 'bot' } as Message,
