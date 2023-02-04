@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 
 export default function Home({ ip }) {
   const router = useRouter();
-  console.log(ip)
   return (
     <div>
       <Head>
