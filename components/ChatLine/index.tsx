@@ -45,22 +45,15 @@ const convertNewLines = (text: string) =>
   ))
 
 export function ChatLine({ who = 'bot', message }: Message) {
-  const [isHandlingVoice, setIsHandlingVoice] = useState(false)
-
   if (!message) {
     return null
   }
   const formatteMessage = convertNewLines(message)
 
-  console.log(isHandlingVoice)
-
   const handleTextToVoice = async (text, lang) => {
     switch (lang) {
       case 'vi':
-        setIsHandlingVoice(true)
-        const voice = await VoiceLangVN(text);
-        console.log(voice);
-        setIsHandlingVoice(!voice ? true : false); 
+        VoiceLangVN(text);
         return;
       case 'en':
         VoiceLangOrther(text,'en-US')
