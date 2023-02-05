@@ -3,8 +3,8 @@ import Balancer from 'react-wrap-balancer'
 import VolumeIcon from '../../assets/svg/volume'
 import LanguageDetect from 'languagedetect';
 import {VoiceLangVN, VoiceLangOrther} from '../../utils/convertTextToSpeech'
+import { useState } from 'react';
 
-// wrap Balancer to remove type errors :( - @TODO - fix this ugly hack
 const BalancerWrapper = (props: any) => <Balancer {...props} />
 
 export type Message = {
@@ -14,6 +14,7 @@ export type Message = {
 
 // loading placeholder animation for the chat line
 export const LoadingChatLine = () => (
+
   <div className="flex min-w-full animate-pulse px-4 py-5 sm:px-6">
     <div className="flex flex-grow space-x-3">
       <div className="min-w-0 flex-1">
@@ -44,15 +45,22 @@ const convertNewLines = (text: string) =>
   ))
 
 export function ChatLine({ who = 'bot', message }: Message) {
+  const [isHandlingVoice, setIsHandlingVoice] = useState(false)
+
   if (!message) {
     return null
   }
   const formatteMessage = convertNewLines(message)
 
-  const handleTextToVoice = (text, lang) => {
+  console.log(isHandlingVoice)
+
+  const handleTextToVoice = async (text, lang) => {
     switch (lang) {
       case 'vi':
-        VoiceLangVN(text)
+        setIsHandlingVoice(true)
+        const voice = await VoiceLangVN(text);
+        console.log(voice);
+        setIsHandlingVoice(!voice ? true : false); 
         return;
       case 'en':
         VoiceLangOrther(text,'en-US')

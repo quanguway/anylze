@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 
 export default function Home({ localIp }) {
-  console.log(localIp);
+  // console.log(localIp.replaceAll('.','-').replaceAll('', '.'));
   const router = useRouter();
   return (
     <div>

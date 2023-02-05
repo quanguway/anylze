@@ -60,7 +60,7 @@ interface Props {
 }
 
 export function ChatTest({localIP} :Props) {
-	const [lang, setLang] = useState('vi-VN')
+	const [lang, setLang] = useState('en-US')
   const {
     transcript,
     listening,
@@ -101,19 +101,21 @@ export function ChatTest({localIP} :Props) {
 	    	message = 'hello';
 	    }
 
-    // const response = await axios.post('https://api.openai.com/v1/completions', {
-    // 	"model": "text-davinci-003",
-		//   "prompt": `${message}`,
-		//   "max_tokens": 4000,
-		//   "temperature": 0.7
-		//     },  {headers: {
-		//         Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
-		//       }})
-    // const data = response.data.choices[0];
+    const response = await axios.post('https://api.openai.com/v1/completions', {
+    	"model": "text-davinci-003",
+		  "prompt": `${message}`,
+		  "temperature": 0.9,
+      "max_tokens": 4000,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0.6,
+		    },  {headers: {
+		        Authorization: `Bearer ${process.env.NEXT_OPENAI_API_KEY}`,
+		      }})
+    const data = response.data.choices[0];
     
     // // // strip out white spaces from the bot message
-    // const botNewMessage = data.text.trim();
-    const botNewMessage = 'xin chào bạn';
+    const botNewMessage = data.text.trim();
     
     // const messageLog = {
     //   ip: localIP,
@@ -184,16 +186,16 @@ export function ChatTest({localIP} :Props) {
 		      </div>
 	      </div>
       </div> : ''}
-      	<p>Trải nghiệm tốt hơn khi chọn ngôn ngữ với chức năng chat voice</p>
-      	<p>Bấm vào biểu tượng voice để nói và bấm lần nữa khi xong</p>
+      	<p>Better experience when choosing a language with voice chat function</p>
+      	<p>Click the voice icon to speak and click again when you're done</p>
       <div className='flex mt-6'>
+				<div className="flex items-center mr-5">
+			    <input checked={lang === 'en-US'} type="radio" onChange={handleChangeLang}  value="en-US" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
+			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">United State</label>
+				</div>
 	      <div className="flex items-center mr-5">
 			    <input checked={lang === 'vi-VN'} onChange={handleChangeLang} type="radio" value="vi-VN" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Việt Nam</label>
-				</div>
-				<div className="flex items-center">
-			    <input type="radio" onChange={handleChangeLang}  value="en-US" name="lang" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"/>
-			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">United State</label>
+			    <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vietnamese</label>
 				</div>
       </div>
       <div className='h-5' ref={bottomRef} />

@@ -29,6 +29,7 @@
     "regenerator-runtime": "^0.13.11",
     "talkify-tts": "^3.9.3",
     "util": "^0.12.5",
+    "wavesurfer.js": "^6.4.0",
     "xlsx": "^0.18.5"
   },
   "engines": {

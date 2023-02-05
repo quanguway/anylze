@@ -80,6 +80,8 @@ export function Chat() {
     const last10messages = newMessages.slice(-10)
 
     message.replace('hi', 'hello')
+    console.log("haha")
+    console.log(process.env.NEXT_OPENAI_API_KEY);
 
     const response = await axios.post('https://api.openai.com/v1/completions', {
       "model": "text-davinci-003",
